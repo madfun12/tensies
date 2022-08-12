@@ -1,2 +1,0 @@
-# tensies
-dice game app
