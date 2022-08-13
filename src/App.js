@@ -3,8 +3,13 @@ import Die from './components/Die'
 import Confetti from 'react-confetti'
 
 function App() {
+  if(localStorage.getItem('lowScore') === null){
+    localStorage.setItem('lowScore', JSON.stringify(0))
+  }
   const [dice, setDice] = React.useState(allNewDice())
   const [tensies, setTensies] = React.useState(false);
+  const [count, setCount] = React.useState(0)
+  const [lowScore, setLowScore] = React.useState(JSON.parse(localStorage.getItem('lowScore')))
 
   React.useEffect(()=>{
     const allFrozen = dice.every(die => die.isFrozen)
@@ -15,7 +20,8 @@ function App() {
 
   },[dice])
 
-  console.log(dice)
+
+  console.log(lowScore)
   function allNewDice(){
     let arrayOfDice = []
     for(let i=0;i<10;i++){
@@ -32,6 +38,9 @@ function App() {
     setDice(oldDice => oldDice.map(die =>{
       return die.isFrozen ? die : {...die, value: Math.floor(Math.random() * 6 + 1)}
     }))
+    setCount(oldCount => {
+      return oldCount + 1
+    })
   }
   
 
@@ -45,8 +54,13 @@ function App() {
   }
 
   function reset(){
+    if(lowScore === 0 || lowScore > count){
+      localStorage.setItem('lowScore', JSON.stringify(count))
+    }
     setDice(allNewDice)
     setTensies(false)
+    setCount(0)
+    setLowScore(JSON.parse(localStorage.getItem('lowScore')))
   }
 
   return (
@@ -64,7 +78,8 @@ function App() {
         })}
       </div>
       <button onClick={tensies ? reset : rollDice}>{tensies ? "New Game" : "Roll"}</button>
-      
+      <p>Current Score: {count}</p>
+      <p>Lowest Score: {lowScore}</p>
     </main>
   );
 }
