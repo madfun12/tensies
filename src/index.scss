@@ -77,7 +77,16 @@ button{
   transition: 100ms;
   margin-top: 20px;
 }
-
+.refresh{
+  color: #5035FF;
+  background-color: transparent;
+  box-shadow: none;
+  border: 2px solid #5035FF;
+  &:hover{
+    background-color: #5035FF;
+    color: white;
+  }
+}
 button:hover{
   background-color: #3a27b6;
 }
